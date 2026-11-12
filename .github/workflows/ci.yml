@@ -1,0 +1,44 @@
+
+name: Basic CI Workflow
+
+# Automatically trigger the workflow
+# whenever code is pushed to main
+on:
+  push:
+    branches:
+      - main
+
+  # Also run when a pull request targets main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build and Test
+
+    # GitHub provides an Ubuntu environment
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Step 1: Get the repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Configure Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Execute automated tests
+      - name: Run Automated Tests
+        run: |
+          pytest -v
