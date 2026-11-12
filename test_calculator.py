@@ -1,6 +1,4 @@
 
-import pytest
-
 from calculator import add, subtract, multiply, divide
 
 
@@ -21,5 +19,9 @@ def test_division():
 
 
 def test_division_by_zero():
-    with pytest.raises(ValueError):
+    try:
         divide(10, 0)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("divide() should raise ValueError for division by zero")
